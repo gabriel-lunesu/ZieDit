@@ -1,8 +1,30 @@
 body {
   margin: 0;
-  background-color: #ffffff;
+  background-color: #7c9ee0;
 }
- 
+
 .h-100 {
-    margin-top:100px;
-}   
+  margin-top: 100px;
+}
+
+div {
+  justify-content: center;
+  align-items: center;
+}
+
+.btn {
+  @apply font-bold py-2 px-4 rounded;
+}
+.btn-blue {
+  @apply bg-blue-500 text-white;
+}
+.btn-blue:hover {
+  @apply bg-blue-700;
+}
+
+.title {
+  font-size: 40px; /* Increase the font size here */
+}
+
+
+

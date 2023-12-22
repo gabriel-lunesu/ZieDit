@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from 'axios';
 import {useNavigate} from "react-router-dom";
+import {Link} from 'react-router-dom';
+
  
 export default function LoginPage(){
  
@@ -8,6 +10,10 @@ export default function LoginPage(){
     const [password,setPassword] = useState('');
    
     const navigate = useNavigate();
+
+    const [leftPos, setLeftPos] = useState(0);
+
+   
      
     const logInUser = () => {
         if(email.length === 0){
@@ -24,7 +30,7 @@ export default function LoginPage(){
             .then(function (response) {
                 console.log(response);
                 //console.log(response.data);
-                navigate("/");
+                navigate("/dashboard");
             })
             .catch(function (error) {
                 console.log(error, 'error');
@@ -35,55 +41,82 @@ export default function LoginPage(){
         }
     }
  
-    let imgs = [
-      'https://as1.ftcdn.net/v2/jpg/03/39/70/90/1000_F_339709048_ZITR4wrVsOXCKdjHncdtabSNWpIhiaR7.jpg',
-    ];
+    useEffect(() => {
+      setLeftPos(window.innerWidth / 2);
+    }, []);
      
   return (
-    <div>
-        <div className="container h-100">
-          <div className="container-fluid h-custom">
-            <div className="row d-flex justify-content-center align-items-center h-100">
-              <div className="col-md-9 col-lg-6 col-xl-5">
-                <img src={imgs[0]} className="img-fluid"/>
-              </div>
-              <div className="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
-                <form>
-                  <div className="d-flex flex-row align-items-center justify-content-center justify-content-lg-start">
-                    <p className="lead fw-normal mb-0 me-3">Log Into Your Account</p>
-                  </div>
- 
-                  <div className="form-outline mb-4">
-                    <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} id="form3Example3" className="form-control form-control-lg" placeholder="Enter a valid email address" />
-                    <label className="form-label" for="form3Example3">Email address</label>
-                  </div>
- 
-             
-                  <div className="form-outline mb-3">
-                    <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} id="form3Example4" className="form-control form-control-lg" placeholder="Enter password" />
-                    <label className="form-label" for="form3Example4">Password</label>
-                  </div>
- 
-                  <div className="d-flex justify-content-between align-items-center">
-                    <div className="form-check mb-0">
-                      <input className="form-check-input me-2" type="checkbox" value="" id="form2Example3" />
-                      <label className="form-check-label" for="form2Example3">
-                        Remember me
-                      </label>
-                    </div>
-                    <a href="#!" className="text-body">Forgot password?</a>
-                  </div>
- 
-                  <div className="text-center text-lg-start mt-4 pt-2">
-                    <button type="button" className="btn btn-primary btn-lg" onClick={logInUser} >Login</button>
-                    <p className="small fw-bold mt-2 pt-1 mb-0">Don't have an account? <a href="/register" className="link-danger">Register</a></p>
-                  </div>
- 
-                </form>
-              </div>
+    <div className="relative h-screen">
+      
+      <div style={{
+        position: 'absolute',
+        top: '50%',
+        left: leftPos,
+        transform: 'translate(-50%, -50%)'  
+      }}>
+      
+        <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+        
+          <div className="d-flex flex-row align-items-center justify-content-center justify-content-lg-start">
+            <p className="lead fw-normal mb-5 font-bold me-3">Log Into Your Account</p>
+          </div>
+        
+          <div className="form-outline mb-4">
+          <label className="form-label font-thin mr-5" htmlFor="form3Example3">Email address</label>
+
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              id="form3Example3"
+              className="form-control form-control-lg"
+              placeholder="Enter a valid email address" 
+            />
+          </div>
+        
+          <div className="form-outline mb-3">
+          <label className="form-label font-thin mr-5" htmlFor="form3Example4">Password</label>
+
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              id="form3Example4"
+              className="form-control form-control-lg"
+              placeholder="Enter password" 
+            />
+          </div>
+        
+          <div className="d-flex justify-content-between align-items-center">
+            <div className="form-check mb-0">
+              <input className="form-check-input me-2" type="checkbox" value="" id="form2Example3" />
+              <label className="form-check-label" htmlFor="form2Example3">Remember me</label>
             </div>
           </div>
-        </div>
+        
+          <div className="text-center text-lg-start mt-4 pt-2">
+            <button 
+              type="button" 
+              className="bg-blue-500 hover:bg-blue-700 text-white mr-5 font-bold py-2 px-4 rounded"
+              onClick={logInUser}
+            >
+              Login
+            </button>
+            <a 
+              type="button" 
+              href="/register"
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"  
+            >
+              Register
+            </a>
+            
+          </div>
+        
+        </form>
+      
+      </div>
+
     </div>
   );
+
 }
