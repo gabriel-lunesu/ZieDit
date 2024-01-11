@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify, session
 from flask_bcrypt import Bcrypt #pip install Flask-Bcrypt = https://pypi.org/project/Flask-Bcrypt/
 from flask_cors import CORS, cross_origin #ModuleNotFoundError: No module named 'flask_cors' = pip install Flask-Cors
 from models import db, User, Event
+from flask_sqlalchemy import to_dict
 import uuid
 
  
@@ -67,29 +68,28 @@ def login_user():
         "email": user.email
     })
 
-@app.route('/events', methods=['GET'])
-def get_events():
-    events = Event.query.all()
-    return jsonify([event.to_dict() for event in events])
 
 
-@app.route('/events', methods=['POST'])
+
+@app.route("/events", methods=["POST"])  
 def create_event():
-    
-    eventName = request.json["eventName"]
-    
-    new_event = Event(eventName=eventName)
 
-    
-    db.session.add(new_event)
-    db.session.commit()
-    
-    session["event_id"] = new_event.id
-    
-    return jsonify({
-        "id": new_event.id,
-        "eventName": new_event.eventName,
-    })
+  eventName = request.json['eventName']
+
+  new_event = Event(eventName=eventName)
+
+
+  db.session.add(new_event)
+  db.session.commit()
+  
+  return jsonify({
+      "id": new_event.id,
+      "name": new_event.eventName
+  })
+
+
+
+
 
 with app.app_context():
     db.drop_all()
