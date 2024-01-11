@@ -3,15 +3,23 @@ import axios from 'axios';
 import {useNavigate} from "react-router-dom";
 
 
+
 export default function Dashboard(){
 
     const [eventName, seteventName] = useState('');
+    const [events, setEvents] = useState([]);
+
 
     const navigate = useNavigate();
-
     const [leftPos, setLeftPos] = useState(0);
 
-    
+
+    useEffect(() => {
+        axios.get('http://127.0.0.1:5000/events')
+          .then(response => {
+            setEvents(response.data);
+          })
+      }, [])
 
 
     const createEvent = () => {
@@ -35,6 +43,16 @@ export default function Dashboard(){
     useEffect(() => {
       setLeftPos(window.innerWidth / 2);
     }, []);
+
+    const displayEvents = () => {
+        return events.map(event => {
+          return (
+            <div className="italic hover:not-italic font-bold border-2" key={event.id}>
+              <p className="">{event.eventName}</p>
+            </div>
+          )
+        })
+      }
 
     return (
         <div className="relative h-screen">
@@ -74,11 +92,12 @@ export default function Dashboard(){
                 >
                   Register Event
                 </button>
-                
+              </div>
+              <div className="events text-center text-lg-start mt-4">
+                {displayEvents()}
               </div>
             
             </form>
-          
           </div>
     
         </div>
