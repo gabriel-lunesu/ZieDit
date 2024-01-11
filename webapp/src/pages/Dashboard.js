@@ -7,6 +7,7 @@ import {useNavigate} from "react-router-dom";
 export default function Dashboard(){
 
     const [eventName, seteventName] = useState('');
+    const [eventDate, seteventDate] = useState('');
     const [events, setEvents] = useState([]);
 
 
@@ -25,6 +26,7 @@ export default function Dashboard(){
     const createEvent = () => {
         axios.post('http://127.0.0.1:5000/events', {
             eventName: eventName,
+            eventDate: eventDate // from some date picker
             })
             .then(function (response) {
                 console.log(response);
@@ -49,6 +51,7 @@ export default function Dashboard(){
           return (
             <div className="italic hover:not-italic font-bold border-2" key={event.id}>
               <p className="">{event.eventName}</p>
+              <p className="">{event.eventDate}</p>
             </div>
           )
         })
@@ -77,6 +80,19 @@ export default function Dashboard(){
                   type="text"
                   value={eventName}
                   onChange={(e) => seteventName(e.target.value)}
+                  id="form3Example3"
+                  className="form-control form-control-lg"
+                  placeholder="Enter a valid event" 
+                />
+              </div>
+
+              <div className="form-outline mb-4">
+              <label className="form-label font-thin mr-5" htmlFor="form3Example3">Date</label>
+    
+                <input
+                  type="Date"
+                  value={eventDate}
+                  onChange={(e) => seteventDate(e.target.value)}
                   id="form3Example3"
                   className="form-control form-control-lg"
                   placeholder="Enter a valid event" 
