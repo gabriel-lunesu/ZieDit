@@ -1,4 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
+from datetime import datetime
 from uuid import uuid4
 
  
@@ -16,8 +17,11 @@ class User(db.Model):
 class Event(db.Model):
     __tablename__ = "events"
     id = db.Column(db.String, primary_key=True, default=get_uuid) 
-    eventName = db.Column(db.String, nullable=False)
-    
+    eventName = db.Column(db.String, nullable=False, unique=True)
+    eventDesc = db.Column(db.String)
+
+
+
    
 
 
