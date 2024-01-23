@@ -79,8 +79,10 @@ def login_user():
 def create_event():
 
   eventName = request.json['eventName']
+  eventDesc = request.json['eventDesc']
 
-  new_event = Event(eventName=eventName)
+
+  new_event = Event(eventName=eventName, eventDesc=eventDesc)
 
 
   db.session.add(new_event)
@@ -88,7 +90,8 @@ def create_event():
   
   return jsonify({
       "id": new_event.id,
-      "name": new_event.eventName
+      "name": new_event.eventName,
+      "desc": new_event.eventDesc
   })
 
 @app.route("/events", methods=["GET"])  
@@ -100,7 +103,8 @@ def get_events():
   for event in events:
     events_list.append({
       "id": event.id,
-      "eventName": event.eventName 
+      "eventName": event.eventName,
+      "eventDesc": event.eventDesc
     })
 
   return jsonify(events_list)

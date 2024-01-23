@@ -17,8 +17,8 @@ class User(db.Model):
 class Event(db.Model):
     __tablename__ = "events"
     id = db.Column(db.String, primary_key=True, default=get_uuid) 
-    eventName = db.Column(db.String, nullable=False)
-    eventDate = db.Column(db.DateTime, default=datetime.utcnow)
+    eventName = db.Column(db.String, nullable=False, unique=True)
+    eventDesc = db.Column(db.String)
 
 
 
