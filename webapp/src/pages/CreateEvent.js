@@ -6,6 +6,8 @@ export default function CreateEvent(){
 
     const [eventName, seteventName] = useState('');
     const [eventDesc, seteventDesc] = useState('');
+    const [eventDate, seteventDate] = useState('');
+
 
     const navigate = useNavigate();
 
@@ -16,7 +18,8 @@ export default function CreateEvent(){
     const createEvent = () => {
         axios.post('http://127.0.0.1:5000/events', {
             eventName: eventName,
-            eventDesc: eventDesc
+            eventDesc: eventDesc,
+            eventDate: eventDate
             })
             .then(function (response) {
                 console.log(response);
@@ -64,6 +67,8 @@ export default function CreateEvent(){
                       placeholder="naam van het evenement" 
                     />
                   </div>
+
+                  
                   <div className="form-outline mb-4">
                   <label className="form-label font-thin mr-5" htmlFor="form3Example3">Beschrijving</label>
         
@@ -74,6 +79,19 @@ export default function CreateEvent(){
                       id="form3Example3"
                       className="form-control form-control-lg"
                       placeholder="Voer de beschrijving van het evenement in" 
+                    />
+                  </div>
+
+                  <div className="form-outline mb-4">
+                  <label className="form-label font-thin mr-5" htmlFor="form3Example3">Datum</label>
+        
+                    <input
+                      type="Date"
+                      value={eventDate}
+                      onChange={(e) => seteventDate(e.target.value)}
+                      id="form3Example3"
+                      className="form-control form-control-lg"
+                      placeholder="Voer de datum van het evenement in" 
                     />
                   </div>
     

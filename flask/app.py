@@ -3,6 +3,9 @@ from flask_bcrypt import Bcrypt #pip install Flask-Bcrypt = https://pypi.org/pro
 from flask_cors import CORS, cross_origin #ModuleNotFoundError: No module named 'flask_cors' = pip install Flask-Cors
 from models import db, User, Event
 import uuid
+from datetime import datetime
+
+
 
  
 app = Flask(__name__)
@@ -80,9 +83,11 @@ def create_event():
 
   eventName = request.json['eventName']
   eventDesc = request.json['eventDesc']
+  eventDate = request.json['eventDate']
 
+ 
 
-  new_event = Event(eventName=eventName, eventDesc=eventDesc)
+  new_event = Event(eventName=eventName, eventDesc=eventDesc, eventDate=eventDate)
 
 
   db.session.add(new_event)
@@ -91,7 +96,8 @@ def create_event():
   return jsonify({
       "id": new_event.id,
       "name": new_event.eventName,
-      "desc": new_event.eventDesc
+      "desc": new_event.eventDesc,
+      "date": new_event.eventDate
   })
 
 @app.route("/events", methods=["GET"])  
@@ -104,7 +110,8 @@ def get_events():
     events_list.append({
       "id": event.id,
       "eventName": event.eventName,
-      "eventDesc": event.eventDesc
+      "eventDesc": event.eventDesc,
+      "eventDate": event.eventDate
     })
 
   return jsonify(events_list)

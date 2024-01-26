@@ -38,6 +38,7 @@ export default function Dashboard(){
             <div className="italic hover:not-italic font-bold border-2" key={event.id}>
               <p className="">{event.eventName}</p>
               <p className="text-sm">{event.eventDesc}</p>
+              <p className="text-sm">{event.eventDate}</p>
             </div>
           )
         })
