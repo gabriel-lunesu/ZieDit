@@ -30,7 +30,7 @@ def hello_world():
  
 @app.route("/signup", methods=["POST"])
 def signup():
-        
+  try:
     email = request.json["email"]
     password = request.json["password"]
  
@@ -50,113 +50,127 @@ def signup():
         "id": new_user.id,
         "email": new_user.email
     })
+  except Exception:
+    return ("Exeption Caught")
  
 @app.route("/login", methods=["POST"])
 def login_user():
-    email = request.json["email"]
-    password = request.json["password"]
+    try:
+      email = request.json["email"]
+      password = request.json["password"]
   
-    user = User.query.filter_by(email=email).first()
+      user = User.query.filter_by(email=email).first()
   
-    if user is None:
+      if user is None:
         return jsonify({"error": "Unauthorized Access"}), 401
   
-    if not bcrypt.check_password_hash(user.password, password):
+      if not bcrypt.check_password_hash(user.password, password):
         return jsonify({"error": "Unauthorized"}), 401
       
-    session["user_id"] = user.id
+      session["user_id"] = user.id
   
-    return jsonify({
+      return jsonify({
         "id": user.id,
         "email": user.email
-    })
-
-
-
-
-
-
+      })
+    except Exception:
+      return ("Exeption Caught")
 
 
 
 @app.route("/events", methods=["POST"])  
 def create_event():
+  try:
+    
+    eventName = request.json['eventName']
+    eventDesc = request.json['eventDesc']
+    eventDate = request.json['eventDate']
 
-  eventName = request.json['eventName']
-  eventDesc = request.json['eventDesc']
-  eventDate = request.json['eventDate']
-
- 
-
-  new_event = Event(eventName=eventName, eventDesc=eventDesc, eventDate=eventDate)
-
-
-  db.session.add(new_event)
-  db.session.commit()
   
-  return jsonify({
+
+    new_event = Event(eventName=eventName, eventDesc=eventDesc, eventDate=eventDate)
+
+
+    db.session.add(new_event)
+    db.session.commit()
+  
+    return jsonify({
       "id": new_event.id,
       "name": new_event.eventName,
       "desc": new_event.eventDesc,
       "date": new_event.eventDate
-  })
+    })
+  except Exception:
+    return ("Wrong input type")
 
 @app.route("/events", methods=["GET"])  
 def get_events():
-  events = Event.query.all()
+  try:
+    events = Event.query.all()
   
-  events_list = []
+    events_list = []
   
-  for event in events:
-    events_list.append({
+    for event in events:
+      events_list.append({
       "id": event.id,
       "eventName": event.eventName,
       "eventDesc": event.eventDesc,
       "eventDate": event.eventDate
-    })
+      })
 
-  return jsonify(events_list)
+    return jsonify(events_list)
+  except Exception:
+    return ("Wrong input type")
+  
 
 
 @app.route('/events/<id>', methods=['GET'])
 def get_event(id):
+  try:
+    event = Event.query.get(id)
 
-  event = Event.query.get(id)
+    response = {
+      "id": event.id,
+      "eventName": event.eventName,
+      "eventDesc": event.eventDesc,
+      "eventDate": event.eventDate
+    }
 
-  response = {
-    "id": event.id,
-    "eventName": event.eventName,
-    "eventDesc": event.eventDesc,
-    "eventDate": event.eventDate
-  }
+    return jsonify(response), 200
+  except Exception:
+    return ("Wrong input type")
 
-  return jsonify(response), 200
+  
 
 
 # UPDATE events
 @app.route('/events/<id>', methods=['PUT'])
 def update_event(id):
+  try:
+    data = request.get_json()
 
-  data = request.get_json()
+    event = Event.query.get(id)
 
-  event = Event.query.get(id)
-
-  event.eventName = data['eventName']
-  event.eventDesc = data['eventDesc'] 
-  event.eventDate = data['eventDate']
+    event.eventName = data['eventName']
+    event.eventDesc = data['eventDesc'] 
+    event.eventDate = data['eventDate']
   
-  db.session.commit()
+    db.session.commit()
 
-  updated_event = Event.query.get(id)
+    updated_event = Event.query.get(id)
 
-  response = {
-    "id": updated_event.id,
-    "eventName": updated_event.eventName,
-    "eventDesc": updated_event.eventDesc,  
-    "eventDate": updated_event.eventDate
-  }
+    response = {
+      "id": updated_event.id,
+      "eventName": updated_event.eventName,
+      "eventDesc": updated_event.eventDesc,  
+      "eventDate": updated_event.eventDate
+    }
 
-  return jsonify(response)
+    return jsonify(response)
+  except Exception:
+    return ("Exception Caught")
+
+  
 
 
 
