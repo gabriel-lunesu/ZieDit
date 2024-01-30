@@ -23,6 +23,9 @@ export default function Dashboard(){
         })
     }, [])
 
+
+    
+
     
 
 
@@ -36,10 +39,23 @@ export default function Dashboard(){
         return events.map(event => {
           return (
             <div className="italic hover:not-italic font-bold border-2" key={event.id}>
-              <p className="">{event.eventName}</p>
-              <p className="text-sm">{event.eventDesc}</p>
-              <p className="text-sm">{event.eventDate}</p>
+              {events.map(event => (
+                <Link 
+                  key={event.id}
+                  to={`/events/${event.id}`}  
+                >
+                  <h2>{event.eventName}</h2>
+                  <p>{event.eventDesc}</p>
+                  <p>{event.eventDate}</p> 
+                </Link>
+              ))}
+
             </div>
+            // <Link className="italic hover:not-italic font-bold border-2" key={event.id}>
+            //   <p className="">{event.eventName}</p>
+            //   <p className="text-sm">{event.eventDesc}</p>
+            //   <p className="text-sm">{event.eventDate}</p>
+            // </Link>
           )
         })
       }

@@ -9,6 +9,8 @@ from datetime import datetime
 
  
 app = Flask(__name__)
+
+CORS(app)
  
 app.config['SECRET_KEY'] = 'cairocoders-ednalan'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///flaskdb.db'
@@ -17,7 +19,6 @@ SQLALCHEMY_TRACK_MODIFICATIONS = False
 SQLALCHEMY_ECHO = True
   
 bcrypt = Bcrypt(app) 
-CORS(app, supports_credentials=True)
 db.init_app(app)
   
 with app.app_context():
@@ -115,6 +116,47 @@ def get_events():
     })
 
   return jsonify(events_list)
+
+
+@app.route('/events/<id>', methods=['GET'])
+def get_event(id):
+
+  event = Event.query.get(id)
+
+  response = {
+    "id": event.id,
+    "eventName": event.eventName,
+    "eventDesc": event.eventDesc,
+    "eventDate": event.eventDate
+  }
+
+  return jsonify(response), 200
+
+
+# UPDATE events
+@app.route('/events/<id>', methods=['PUT'])
+def update_event(id):
+
+  data = request.get_json()
+
+  event = Event.query.get(id)
+
+  event.eventName = data['eventName']
+  event.eventDesc = data['eventDesc'] 
+  event.eventDate = data['eventDate']
+  
+  db.session.commit()
+
+  updated_event = Event.query.get(id)
+
+  response = {
+    "id": updated_event.id,
+    "eventName": updated_event.eventName,
+    "eventDesc": updated_event.eventDesc,  
+    "eventDate": updated_event.eventDate
+  }
+
+  return jsonify(response)
 
 
 
