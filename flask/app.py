@@ -4,30 +4,38 @@ from flask_cors import CORS, cross_origin #ModuleNotFoundError: No module named 
 from models import db, User, Event
 import uuid
 from datetime import datetime
-
-
-
  
 app = Flask(__name__)
 
+# Enable CORS for all routes
 CORS(app)
- 
+
+# Configuration for Flask app 
 app.config['SECRET_KEY'] = 'cairocoders-ednalan'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///flaskdb.db'
  
 SQLALCHEMY_TRACK_MODIFICATIONS = False
 SQLALCHEMY_ECHO = True
-  
+
+# Initialize Bcrypt and SQLAlchemy with the app  
 bcrypt = Bcrypt(app) 
 db.init_app(app)
-  
+
+# Create tables in the database  
 with app.app_context():
     db.create_all()
- 
+
+#Hello World Function 
 @app.route("/")
 def hello_world():
+  try:
     return "Hello, World!"
- 
+  except Exception:
+    return "Exeption Caught"
+
+# User signup endpoint
+# Check if user with the same email already exists
+# Hash the password and create a new user 
 @app.route("/signup", methods=["POST"])
 def signup():
   try:
@@ -52,7 +60,10 @@ def signup():
     })
   except Exception:
     return ("Exeption Caught")
- 
+
+# User login endpoint
+# Query user by email
+# Check if the password is correct 
 @app.route("/login", methods=["POST"])
 def login_user():
     try:
@@ -76,8 +87,8 @@ def login_user():
     except Exception:
       return ("Exeption Caught")
 
-
-
+# Create event endpoint
+# Create a new event
 @app.route("/events", methods=["POST"])  
 def create_event():
   try:
@@ -103,6 +114,8 @@ def create_event():
   except Exception:
     return ("Wrong input type")
 
+# Get all events endpoint
+# Format events for response
 @app.route("/events", methods=["GET"])  
 def get_events():
   try:
@@ -122,8 +135,7 @@ def get_events():
   except Exception:
     return ("Wrong input type")
   
-
-
+# Get a specific event by ID endpoint
 @app.route('/events/<id>', methods=['GET'])
 def get_event(id):
   try:
@@ -140,10 +152,7 @@ def get_event(id):
   except Exception:
     return ("Wrong input type")
 
-  
-
-
-# UPDATE events
+# Update a specific event by ID endpoint
 @app.route('/events/<id>', methods=['PUT'])
 def update_event(id):
   try:
@@ -170,10 +179,7 @@ def update_event(id):
   except Exception:
     return ("Exception Caught")
 
-  
-
-
-
+# Drop and create all tables when the script is run
 with app.app_context():
     db.drop_all()
     db.create_all()
