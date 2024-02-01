@@ -9,6 +9,7 @@ import RegisterPage from './pages/RegisterPage'
 import Dashboard from './pages/Dashboard';
 import CreateEvent from './pages/CreateEvent';
 import EditEvent from './pages/EditEvent';
+import UserProfile from './pages/UserProfile';
  
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/createevent" element={<CreateEvent />} />
             <Route path="/events/:id" element={<EditEvent/>} />
+            <Route path="/userprofile" element={<UserProfile/>} />
 
             
         </Routes>

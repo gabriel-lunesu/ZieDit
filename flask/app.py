@@ -9,7 +9,6 @@ from datetime import datetime
 
  
 app = Flask(__name__)
-
 CORS(app)
  
 app.config['SECRET_KEY'] = 'cairocoders-ednalan'
@@ -27,6 +26,9 @@ with app.app_context():
 @app.route("/")
 def hello_world():
     return "Hello, World!"
+
+
+# dit is waar iemand zich kan aanmelden en een nieuwe user aanmaakt in de database
  
 @app.route("/signup", methods=["POST"])
 def signup():
@@ -138,7 +140,7 @@ def get_event(id):
 
     return jsonify(response), 200
   except Exception:
-    return ("Wrong input type")
+    return ("Event not found!")
 
   
 
@@ -171,7 +173,16 @@ def update_event(id):
     return ("Exception Caught")
 
   
-
+  
+@app.route('/events/<id>', methods=['GET','DELETE']) 
+def delete_event(id):
+  event = Event.query.get(id)
+  if event:
+    db.session.delete(event)
+    db.session.commit()
+    return jsonify({'message': 'Event deleted'})
+  else:
+    return jsonify({'error': 'Event not found'}), 404
 
 
 with app.app_context():

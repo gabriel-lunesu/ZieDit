@@ -18,6 +18,8 @@ export default function EditEvent() {
   const {id} = useParams();
   const navigate = useNavigate();
   
+
+  // function to get all events out of database
   useEffect(() => {
     const fetchEvent = async () => {
       console.log(id);
@@ -32,8 +34,18 @@ export default function EditEvent() {
     fetchEvent();
   }, [id]);
 
-//   get event for specific id, now is getting random id!
 
+  // function to delete events
+  
+  const deleteEvent = async () => {
+      console.log(id);
+      axios.delete(`http://127.0.0.1:5000/events/${id}`);
+      navigate("/dashboard");
+    }
+
+ 
+
+//  function to save events to the database
   const handleSave = async () => {
     await axios.put(`http://127.0.0.1:5000/events/${id}`, {
       eventName,
@@ -77,7 +89,12 @@ export default function EditEvent() {
             value={eventDate}
             onChange={e => setEventDate(e.target.value)}
         />
-        <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded' onClick={handleSave}>Save</button>
+        <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded' onClick={handleSave}>Opslaan</button>
+        <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded' onClick={deleteEvent}>Verwijderen</button>
+        <button className="bg-black hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-5 mr-4 mt-10">Aanmelden</button>
+        <button className="bg-black hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-4 ml-5 mt-10">Terug naar alle evenementen</button>
+
+        <p>aantal deelnemers: 13</p>
         </form>
         </div>
     

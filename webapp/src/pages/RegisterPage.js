@@ -13,6 +13,8 @@ export default function RegisterPage(){
     const [leftPos, setLeftPos] = useState(0);
 
      
+
+    // function to register user and post them to the database
     const registerUser = () => {
         axios.post('http://127.0.0.1:5000/signup', {
             email: email,

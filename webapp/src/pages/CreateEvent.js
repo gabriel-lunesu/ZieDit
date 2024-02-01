@@ -14,6 +14,7 @@ export default function CreateEvent(){
     const [leftPos, setLeftPos] = useState(0);
 
 
+    // function to create events and post them to the database
 
     const createEvent = () => {
         axios.post('http://127.0.0.1:5000/events', {
@@ -24,7 +25,8 @@ export default function CreateEvent(){
             .then(function (response) {
                 console.log(response);
                 navigate("/dashboard");
-            })
+            }) 
+            // exception handling
             .catch(function (error) {
                 console.log(error, 'error');
                 if (error.response.status === 409) {
@@ -48,6 +50,8 @@ export default function CreateEvent(){
                 left: leftPos,
                 transform: 'translate(-50%, -50%)'  
               }}>
+
+                {/* form te create event  */}
               
                 <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
                 

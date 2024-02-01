@@ -13,7 +13,7 @@ export default function LoginPage(){
 
     const [leftPos, setLeftPos] = useState(0);
 
-   
+  //  function to log in users and catch wrong inputs
      
     const logInUser = () => {
         if(email.length === 0){
@@ -32,6 +32,7 @@ export default function LoginPage(){
                 //console.log(response.data);
                 navigate("/dashboard");
             })
+            // if the pass or email is wrong user gets this error
             .catch(function (error) {
                 console.log(error, 'error');
                 if (error.response.status === 401) {
