@@ -27,7 +27,7 @@ with app.app_context():
 #Hello World Function 
 @app.route("/")
 def hello_world():
-  try:
+
     return "Hello, World!"
  
 @app.route("/signup", methods=["POST"])
