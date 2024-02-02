@@ -173,6 +173,20 @@ def update_event(id):
   except Exception:
     return ("Exception Caught")
 
+@app.route('/events/<id>', methods=['DELETE'])
+def delete_event(id):
+  try:
+    event = Event.query.get(id)
+
+    db.session.delete(event)
+    db.session.commit()
+
+    return jsonify({
+      "message": "Event deleted successfully"
+    })
+  except Exception:
+    return ("Exception Caught")
+
   
 
 
