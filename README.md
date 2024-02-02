@@ -7,6 +7,7 @@ clone this repo
 - npm install
 - cd /flask
 - pip install -r requirements.txt
+- if you didn't have flask installed already, run: pip install flask
 
 to run;
 - cd /flask
